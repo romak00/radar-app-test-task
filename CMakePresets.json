@@ -1,0 +1,23 @@
+  {
+      "version": 3,
+      "configurePresets": [
+        {
+          "name": "win-static",
+          "displayName": "Win Static (VS)",
+          "binaryDir": "${sourceDir}/build/win-static",
+          "generator": "Visual Studio 17 2022",
+          "cacheVariables": {
+            "BUILD_STATIC_WINDOWS": "ON",
+            "Qt5_DIR": "C:/Qt/5.15.17-msvc-static/lib/cmake/Qt5"
+          }
+        }
+      ],
+      "buildPresets": [
+          {
+              "name": "win-static",
+              "configurePreset": "win-static",
+              "configuration": "Release"
+          }
+      ]
+    }
+    
