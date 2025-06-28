@@ -14,7 +14,11 @@
 #include <QDateTime>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+#ifdef Q_OS_WIN
     setWindowFlags(Qt::FramelessWindowHint);
+#else
+    setWindowFlags(Qt::Window);
+#endif
     setMinimumSize(1024,768);
     resize(1152,864);
 
@@ -245,3 +249,84 @@ void MainWindow::handleError(const QString& msg) {
     }
     QMessageBox::warning(this, "Network Error", msg);
 }
+
+#ifdef Q_OS_WIN
+bool MainWindow::nativeEvent(const QByteArray& eventType, void* message, long* result) {
+    MSG* msg = static_cast<MSG*>(message);
+
+    if (msg->message == WM_NCHITTEST)
+    {
+        if (isMaximized())
+        {
+            return false;
+        }
+
+        *result = 0;
+        const LONG borderWidth = 8;
+        RECT winrect;
+        GetWindowRect(reinterpret_cast<HWND>(winId()), &winrect);
+
+        short x = msg->lParam & 0x0000FFFF;
+        short y = (msg->lParam & 0xFFFF0000) >> 16;
+
+        bool resizeWidth = minimumWidth() != maximumWidth();
+        bool resizeHeight = minimumHeight() != maximumHeight();
+        if (resizeWidth)
+        {
+            if (x >= winrect.left && x < winrect.left + borderWidth)
+            {
+                *result = HTLEFT;
+            }
+            if (x < winrect.right && x >= winrect.right - borderWidth)
+            {
+                *result = HTRIGHT;
+            }
+        }
+        if (resizeHeight)
+        {
+            if (y < winrect.bottom && y >= winrect.bottom - borderWidth)
+            {
+                *result = HTBOTTOM;
+            }
+            if (y >= winrect.top && y < winrect.top + borderWidth)
+            {
+                *result = HTTOP;
+            }
+        }
+        if (resizeWidth && resizeHeight)
+        {
+            if (x >= winrect.left && x < winrect.left + borderWidth &&
+                y < winrect.bottom && y >= winrect.bottom - borderWidth)
+            {
+                *result = HTBOTTOMLEFT;
+            }
+            if (x < winrect.right && x >= winrect.right - borderWidth &&
+                y < winrect.bottom && y >= winrect.bottom - borderWidth)
+            {
+                *result = HTBOTTOMRIGHT;
+            }
+            if (x >= winrect.left && x < winrect.left + borderWidth &&
+                y >= winrect.top && y < winrect.top + borderWidth)
+            {
+                *result = HTTOPLEFT;
+            }
+            if (x < winrect.right && x >= winrect.right - borderWidth &&
+                y >= winrect.top && y < winrect.top + borderWidth)
+            {
+                *result = HTTOPRIGHT;
+            }
+        }
+
+        if (*result != 0)
+            return true;
+
+        QWidget* action = QApplication::widgetAt(QCursor::pos());
+        if (action == this) {
+            *result = HTCAPTION;
+            return true;
+        }
+    }
+
+    return false;
+}
+#endif

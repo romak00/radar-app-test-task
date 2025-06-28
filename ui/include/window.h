@@ -6,6 +6,11 @@
 #include "radar-widget.h"
 #include "network-client.h"
 
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
+
+
 class QTableWidget;
 class QPushButton;
 class QStatusBar;
@@ -23,6 +28,11 @@ private slots:
     void onTargetSelected(int id);
     void onCursorMoved(double dist, double angle);
     void handleError(const QString& msg);
+
+#ifdef Q_OS_WIN
+protected:
+    bool nativeEvent(const QByteArray& eventType, void* message, long* result) override;
+#endif
 
 private:
     void setupUI();
