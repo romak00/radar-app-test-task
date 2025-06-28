@@ -8,7 +8,8 @@
           "generator": "Visual Studio 17 2022",
           "cacheVariables": {
             "BUILD_STATIC_WINDOWS": "ON",
-            "Qt5_DIR": "C:/Qt/5.15.17-msvc-static/lib/cmake/Qt5"
+            "Qt5_DIR": "C:/Qt/5.15.17-msvc-static/lib/cmake/Qt5",
+            "PRESET_NAME": "win-static"
           }
         }
       ],

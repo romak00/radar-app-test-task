@@ -10,7 +10,6 @@ set(COMMON_SRC_DIR ${CMAKE_SOURCE_DIR}/common/src)
 set(BE_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(BE_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-
 set(SERVER_SOURCES
     ${BE_SRC_DIR}/main.cpp
     ${BE_SRC_DIR}/network-server.cpp
@@ -60,3 +59,7 @@ if(WIN32)
         ASIO_STANDALONE
     )
 endif()
+
+set_target_properties(radar_server PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+)

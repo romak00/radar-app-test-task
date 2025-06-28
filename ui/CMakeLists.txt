@@ -54,3 +54,7 @@ target_link_libraries(radar_ui PRIVATE
 if (WIN32 AND BUILD_STATIC_WINDOWS)
     target_compile_definitions(radar_ui PRIVATE QT_STATIC)
 endif()
+
+set_target_properties(radar_ui PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+)

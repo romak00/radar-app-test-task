@@ -1,1 +1,6 @@
-build/*
+build/**
+.vscode/**
+
+bin/*
+!bin/win-static/
+!bin/win-static/**
