@@ -1,6 +1,6 @@
-Write-Host "==> Windows build started."
+Write-Host "==> Windows static build started."
 
 cmake --preset "win-static"
 cmake --build --preset "win-static" -- /m
 
-Write-Host "==> Windows build finished."
+Write-Host "==> Windows static build finished."

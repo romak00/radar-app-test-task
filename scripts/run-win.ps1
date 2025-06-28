@@ -1,9 +1,8 @@
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $projectRoot = Split-Path $scriptDir -Parent
-$buildDir = Join-Path $projectRoot "build\win-static"
 
-$serverExe = Join-Path $buildDir "backend\Release\radar_server.exe"
-$clientExe = Join-Path $buildDir "ui\Release\radar_ui.exe"
+$serverExe = Join-Path $projectRoot "bin\win-static\radar_server.exe"
+$clientExe = Join-Path $projectRoot "bin\win-static\radar_ui.exe"
 
 if (-Not (Test-Path $serverExe)) {
     Write-Error "Server not found: $serverExe"

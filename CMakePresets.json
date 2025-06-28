@@ -3,13 +3,35 @@
       "configurePresets": [
         {
           "name": "win-static",
-          "displayName": "Win Static (VS)",
+          "displayName": "Windows Static (VS)",
           "binaryDir": "${sourceDir}/build/win-static",
           "generator": "Visual Studio 17 2022",
           "cacheVariables": {
             "BUILD_STATIC_WINDOWS": "ON",
             "Qt5_DIR": "C:/Qt/5.15.17-msvc-static/lib/cmake/Qt5",
             "PRESET_NAME": "win-static"
+          }
+        },
+        {
+          "name": "win",
+          "displayName": "Windows Release (VS)",
+          "binaryDir": "${sourceDir}/build/win",
+          "generator": "Visual Studio 17 2022",
+          "cacheVariables": {
+            "CMAKE_BUILD_TYPE": "Release",
+            "BUILD_STATIC_QT": "OFF",
+            "PRESET_NAME": "win"
+          }
+        },
+        {
+          "name": "unix",
+          "displayName": "Unix Release",
+          "binaryDir": "${sourceDir}/build/unix",
+          "generator": "Unix Makefiles",
+          "cacheVariables": {
+            "CMAKE_BUILD_TYPE": "Release",
+            "BUILD_STATIC_QT": "OFF",
+            "PRESET_NAME": "unix"
           }
         }
       ],
@@ -18,6 +40,16 @@
               "name": "win-static",
               "configurePreset": "win-static",
               "configuration": "Release"
+          },
+          {
+            "name": "win",
+            "configurePreset": "win",
+            "configuration": "Release"
+          },
+          {
+            "name": "unix",
+            "configurePreset": "unix",
+            "configuration": "Release"
           }
       ]
     }

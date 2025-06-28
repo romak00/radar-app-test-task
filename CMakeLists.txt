@@ -4,8 +4,21 @@ project(RadarApp LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+option(BUILD_STATIC_QT "Link Qt statically (Windows only)" OFF)
+
 if(NOT DEFINED PRESET_NAME)
     set(PRESET_NAME "default" CACHE STRING "Current preset name")
+endif()
+
+if (BUILD_STATIC_QT)
+    message(STATUS "Configuring STATIC Qt integration")
+    if (NOT Qt5_DIR)
+        message(FATAL_ERROR "BUILD_STATIC_QT=ON but Qt5_DIR is not set")
+    endif()
+    set(Qt5_USE_STATIC_LIBS TRUE)
+    add_definitions(-DQT_STATIC)
+else()
+    message(STATUS "Configuring DYNAMIC Qt integration")
 endif()
 
 if(CMAKE_CONFIGURATION_TYPES)
@@ -24,14 +37,6 @@ else()
 endif()
 
 message(STATUS "Output directory set to: ${OUTPUT_DIR}")
-
-option(BUILD_STATIC_WINDOWS "Build a single static exe on Windows" OFF)
-
-if (WIN32 AND BUILD_STATIC_WINDOWS)
-    set(Qt5_DIR "" CACHE PATH "Path to your static Qt5Config.cmake")
-    set(Qt5_USE_STATIC_LIBS TRUE)
-    add_definitions(-DQT_STATIC)
-endif()
 
 add_subdirectory(backend)
 add_subdirectory(ui)
